@@ -1,0 +1,66 @@
+Default Error Handler
+**********************
+What type of error is logged by the default error handler?
+Validator Exception with HTTP Bad request message.
+
+What is the error status code?
+500 Server Error
+
+What type of error scope is used by the default error handler?
+On Error Propagate
+
+
+Global Default Error Handler
+****************************
+How many errors are thrown?
+2
+
+What error is thrown first?
+Http Bad Request
+
+Why are there different types of errors thrown?
+from scatter gather
+
+
+Flowlevel Error Handler
+***********************
+What is the result of the GET request?
+Empty Array
+
+What is the status code returned from the GET request?
+200 OK
+
+Did the logger in getAmerican get executed? What is the reason for this behaviour?
+Yes Logger got executed.
+Because it was in the flow level error handler of getAmerican flow
+
+
+Processorlevel Error Handler
+****************************
+What is the result of the GET request?
+Composite Routing Exception with the error description [findFlights] operation does not exist
+
+What is the status code returned from the GET request?
+500 Server error
+
+Did the Logger in the Try scope get executed? What is the reason for this behaviour?
+No Logger did not get executed. 
+Consume through an error which is catch by OnErrorPropagate 
+
+
+Custom Error mapping
+********************
+What is the result of the GET request?
+Composite Routing Exception with the error description [findFlights] operation does not exist
+
+What is the status code returned from the GET request?
+500 Server Error
+
+Which error handler caught the bad SOAP request?
+First it is handled by the processor level error handler (operation does not exist), it throw error object to the getDelta flow.
+This error object is handled by the DELTA:BAD_WSC_REQUEST OnErrorPropagate in the standardize-error-handler ,throws error object back to main flow.
+Finally it is handled by the global-error-handler and throws error to the listener.
+
+What happens to the request if the DELTA:BAD_WSC_REQUEST error scope is changed to an On Error Continue scope?
+500 Server Error with Mule Expression Error.
+If payload is set to [] in the OnErrorContinue error handler, GET request will return the flights of United and American.
